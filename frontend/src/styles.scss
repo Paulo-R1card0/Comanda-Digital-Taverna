@@ -1,0 +1,245 @@
+// =====================================================================
+// Comanda Digital - estilos globais
+// Identidade da loja: Taverna da Brasa (carvão, cobre e creme).
+// Tipografia: Cinzel (títulos da loja, ar de taverna medieval) + Inter (texto) + Outfit (números e painel).
+// =====================================================================
+@use '@angular/material' as mat;
+
+:root {
+  // Paleta Taverna da Brasa
+  --cd-brasa: #a6521f;        // cobre principal da marca (texto branco sobre ele: contraste AA)
+  --cd-brasa-escura: #7f3c14; // cobre queimado (links e destaques sobre creme)
+  --cd-cobre-claro: #e0a064;  // cobre aceso (detalhes sobre carvão)
+  --cd-carvao: #1b1613;       // fundo escuro do topo / painel
+  --cd-carvao-2: #2a211c;
+  --cd-creme: #f7eedf;        // fundo da loja (pergaminho)
+  --cd-pergaminho: #fffaf1;   // cartões da loja
+  --cd-borda: #e4d4bd;
+  --cd-texto-suave: #6a5847;
+  --cd-ok: #2f9e44;
+  --cd-ok-bg: #e6f6ea;
+  --cd-alerta: #b7791f;
+  --cd-alerta-bg: #fff4d6;
+  --cd-erro: #c92a2a;
+  --cd-erro-bg: #ffe8e8;
+  --cd-info: #1c64b4;
+  --cd-info-bg: #e7f0fb;
+  --cd-raio: 14px;
+  --cd-sombra: 0 1px 2px rgb(27 22 19 / 8%), 0 6px 20px rgb(27 22 19 / 8%);
+  --cd-fonte-taverna: Cinzel, 'Times New Roman', serif;
+}
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$orange-palette,
+        tertiary: mat.$red-palette,
+      ),
+      typography: (
+        plain-family: 'Inter, system-ui, sans-serif',
+        brand-family: 'Outfit, Inter, sans-serif',
+      ),
+      density: 0,
+    )
+  );
+  // Botões principais na cor da marca
+  @include mat.button-overrides((filled-container-color: var(--cd-brasa), filled-label-text-color: #fff));
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--cd-creme);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  font-family: Inter, system-ui, sans-serif;
+  margin: 0;
+  min-height: 100%;
+}
+
+h1, h2, h3, .titulo {
+  font-family: Outfit, Inter, sans-serif;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1 { font-size: 1.75rem; font-weight: 700; }
+h2 { font-size: 1.3rem; font-weight: 600; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+
+a { color: var(--cd-brasa-escura); }
+
+.barra-global {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+}
+
+// ---------- Layout utilitário ----------
+.conteudo {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  box-sizing: border-box;
+}
+
+.cabecalho-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  p { margin: 4px 0 0; color: var(--cd-texto-suave); }
+}
+
+.cartao {
+  background: #fff;
+  border: 1px solid var(--cd-borda);
+  border-radius: var(--cd-raio);
+  box-shadow: var(--cd-sombra);
+  padding: 20px;
+}
+
+.grade-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grade-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grade-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
+@media (max-width: 960px) {
+  .grade-3, .grade-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .grade-2, .grade-3, .grade-4 { grid-template-columns: 1fr; }
+}
+
+.linha { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.espacador { flex: 1 1 auto; }
+.largura-total { width: 100%; }
+.texto-suave { color: var(--cd-texto-suave); }
+.direita { text-align: right; }
+.mt { margin-top: 16px; }
+.mb { margin-bottom: 16px; }
+
+.filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 8px;
+
+  mat-form-field { min-width: 180px; flex: 1 1 180px; max-width: 280px; }
+}
+
+// ---------- Tabelas ----------
+.tabela-container {
+  overflow-x: auto;
+  border-radius: var(--cd-raio);
+  border: 1px solid var(--cd-borda);
+  background: #fff;
+}
+
+table.mat-mdc-table {
+  min-width: 640px;
+  background: transparent;
+
+  th.mat-mdc-header-cell {
+    font-weight: 600;
+    color: var(--cd-texto-suave);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+  tr.clicavel { cursor: pointer; }
+  tr.clicavel:hover { background: #fbf1e3; }
+  .num { text-align: right; white-space: nowrap; }
+}
+
+.vazio {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--cd-texto-suave);
+
+  mat-icon { font-size: 40px; width: 40px; height: 40px; opacity: 0.6; }
+}
+
+// ---------- Chips de status ----------
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.5;
+
+  mat-icon { font-size: 16px; width: 16px; height: 16px; }
+}
+.chip-ok, .chip-fc-verde { background: var(--cd-ok-bg); color: var(--cd-ok); }
+.chip-warn, .chip-fc-amarelo { background: var(--cd-alerta-bg); color: var(--cd-alerta); }
+.chip-erro, .chip-fc-vermelho { background: var(--cd-erro-bg); color: var(--cd-erro); }
+.chip-info { background: var(--cd-info-bg); color: var(--cd-info); }
+.chip-neutro { background: #efe3d1; color: var(--cd-texto-suave); }
+
+// ---------- Botões e toasts ----------
+.botao-perigo.mat-mdc-unelevated-button:not(:disabled) {
+  background-color: var(--cd-erro);
+  color: #fff;
+}
+
+.toast-sucesso { --mat-snack-bar-container-color: #1e6b33; --mat-snack-bar-supporting-text-color: #fff; --mat-snack-bar-button-color: #fff; }
+.toast-erro { --mat-snack-bar-container-color: #9b1c1c; --mat-snack-bar-supporting-text-color: #fff; --mat-snack-bar-button-color: #fff; }
+.toast-aviso { --mat-snack-bar-container-color: #8a5a00; --mat-snack-bar-supporting-text-color: #fff; --mat-snack-bar-button-color: #fff; }
+
+// ---------- KPIs ----------
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .kpi-rotulo { color: var(--cd-texto-suave); font-size: 0.82rem; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .kpi-valor { font-family: Outfit, Inter, sans-serif; font-size: 1.7rem; font-weight: 700; }
+  .kpi-rodape { font-size: 0.8rem; color: var(--cd-texto-suave); }
+}
+
+// ---------- Formulários ----------
+.form-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+
+  .span-2 { grid-column: span 2; }
+}
+@media (max-width: 600px) {
+  .form-grade { grid-template-columns: 1fr; .span-2 { grid-column: span 1; } }
+}
+
+.mat-mdc-dialog-content .mat-mdc-form-field { width: 100%; }
+
+// Foto de prato sem URL: gradiente com ícone
+.foto-placeholder {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #e0a064, #a6521f 55%, #3a2a20);
+  color: #fff;
+
+  mat-icon { font-size: 48px; width: 48px; height: 48px; opacity: 0.9; }
+}
+
+// Ícones: se a fonte ainda não carregou, o nome do ícone não empurra o layout
+.mat-icon { overflow: hidden; flex-shrink: 0; }
+html, body { overflow-x: clip; }
+
+// ---------- Loja: Taverna da Brasa ----------
+// Títulos da área do cliente com tipografia de taverna medieval
+.loja {
+  h1, h2, .titulo-taverna { font-family: var(--cd-fonte-taverna); letter-spacing: 0.02em; }
+  h1 { font-weight: 700; }
+  h2 { font-weight: 600; }
+  .cartao { background: var(--cd-pergaminho); }
+}

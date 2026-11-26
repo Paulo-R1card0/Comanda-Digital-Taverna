@@ -1,0 +1,21 @@
+# Blueprint do Render (opcional): cria o serviço do back-end a partir do Dockerfile.
+# As variáveis marcadas com sync: false são preenchidas no painel do Render (nunca no Git).
+services:
+  - type: web
+    name: comanda-digital-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false

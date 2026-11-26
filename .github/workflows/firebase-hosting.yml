@@ -1,0 +1,36 @@
+# Publica o front-end (Angular) no Firebase Hosting — plano gratuito Spark.
+# Só roda depois de configurar no GitHub (Settings → Secrets and variables → Actions):
+#   - Variável FIREBASE_PROJECT_ID  = ID do projeto no Firebase (ex.: taverna-da-brasa-1a2b3)
+#   - Segredo  FIREBASE_SERVICE_ACCOUNT = JSON da conta de serviço com papel "Firebase Hosting Admin"
+# Sem a variável, o job é pulado (não quebra o CI).
+name: Deploy Firebase Hosting
+
+on:
+  push:
+    branches: [main]
+    paths: ['frontend/**', '.github/workflows/firebase-hosting.yml']
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ vars.FIREBASE_PROJECT_ID != '' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: ${{ vars.FIREBASE_PROJECT_ID }}
+          entryPoint: frontend
+          channelId: live

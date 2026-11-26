@@ -1,0 +1,56 @@
+# =====================================================================
+# Comanda Digital - configuração
+# Todos os segredos vêm de variáveis de ambiente (RNF12).
+# Em desenvolvimento, crie o arquivo backend/.env (veja .env.example):
+# ele é lido automaticamente e NÃO vai para o Git.
+# =====================================================================
+spring:
+  application:
+    name: comanda-digital
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/comanda?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:comanda}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    hikari:
+      maximum-pool-size: 5
+  jpa:
+    hibernate:
+      ddl-auto: none          # RNF07: o schema é controlado só pelo Flyway
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    time-zone: America/Sao_Paulo
+    default-property-inclusion: always
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 1000
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-stacktrace: never
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiracao-horas: 8
+  cors:
+    origins: ${CORS_ORIGINS:http://localhost:4200}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
